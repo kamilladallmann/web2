@@ -1,0 +1,59 @@
+<mat-toolbar color="primary" fxLayout="row" class="fixed-header">
+    <span >Portifolio</span>
+    <span fxFlexOffset="50px" fxLayoutAlign="start" fxFlex="33%">
+        <button mat-raised-button  routerLink="/photos">
+            <mat-icon>add_circle_outline</mat-icon>Albuns</button>
+    </span>
+    <span fxFlex="33%">
+        <button mat-raised-button (click)="voltarAlbuns()" *ngIf="listaFotos">
+            <mat-icon>photo_album</mat-icon>Albuns</button>
+    </span>
+    <span fxLayoutAlign="end" fxFlex="33%">
+        <button mat-raised-button (click)="logout()">
+            <mat-icon>exit_to_app</mat-icon>Logout</button>
+    </span>
+</mat-toolbar>
+<div fxLayout="column" fxLayoutAlign="space-around center"
+  class="controler-albuns controle-altura" *ngIf="!listaFotos">
+    <div fxLayout='row wrap'  class="cards">
+        <div fxFlex="350px" class="card-fotos" *ngFor="let fotos of albuns">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{fotos.nome}}</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image src="{{url}}{{fotos.namePhotos[0]}}"
+                *ngIf="fotos.namePhotos.length != 0" 
+                alt="Fotos da {{fotos.nome}}">
+                <div *ngIf="fotos.namePhotos.length == 0" class="not-image">
+                    <mat-icon>wallpaper</mat-icon>
+                </div>
+                <mat-card-actions>
+                    <button mat-button (click)="selecionaAlbum(fotos._id)">Abrir Album</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<div fxLayout="column" fxLayoutAlign="space-around center"
+  class="lista-fotos controle-altura" *ngIf="listaFotos">
+    <div fxLayout="row wrap" class="cards">
+        <div fxFlex="350px" class="card-fotos" *ngFor="let f of fotosAlbum[0]">
+            <mat-card>
+                <img mat-card-image src="{{url}}{{f}}" alt="img de album">
+                <mat-card-actions>
+                    <button mat-button (click)="deletarFoto(f)">deletar</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    
+    <div>
+        <button mat-raised-button (click)="addFotos()"  color="primary">Adicionar Fotos no Album</button>
+    </div>
+    <div class="encaixar entrada-texto btlLogo" *ngIf="novasFotos">
+        <form> 
+            <input type="file" accept="image/*" (change)="atualizarFotos($event)" multiple>
+            <button mat-raised-button (click)="enviarFotos()">Atualizar Album</button>
+        </form>
+     </div>
+</div>

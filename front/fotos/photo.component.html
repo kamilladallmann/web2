@@ -1,0 +1,48 @@
+<mat-toolbar fxLayout="row" color="primary" class="fixed-header">
+  <span>Portifolio</span>
+  <span fxFlexOffset="50px" fxFlexLayoutAlign="start" fxFlex="90%">
+    <button mat-raised-button (click)="verAlbuns()">
+      <mat-icon>photo_album</mat-icon>Albuns</button>
+  </span> 
+  <span fxFlexLayoutAlign="end" fxFlex="10%">
+    <button mat-raised-button>
+      <mat-icon>exit_to_app</mat-icon>Logout</button>
+  </span>
+</mat-toolbar>
+<div class="container">
+
+<form #photoForm="ngForm" fxLayout="column controle-altura"
+ style="padding: 100px 0;"
+ [formGroup]="form">
+  <mat-form-field class="encaixar entrada-texto">
+    <input matInput placeholder="Nome do album" type="tel" formControlName="nome" required>
+    <mat-error *ngIf="form.get('nome').hasError('required')">
+      Nome do album é
+      <strong>exigido</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div fxLayout="column"  fxFlexOffset="50px" class="encaixar entrada-texto btlLogo">
+    <label for="upload">Carregar Fotos</label>
+    <input type="file" id="upload" 
+     accept="image/*" formControlName="photos"
+      (change)="foto($event)" multiple>
+     <div class="container-photos">
+        <div fxLayout="column" *ngFor="let photo of photos">
+            <span fxLayout="row" class="photo-record">
+              <span fxFlexLayoutAlign="start" fxFlex="94%">
+                <mat-icon class="file-icon">insert_photo</mat-icon> <span class="name-photo"> {{photo}}</span>
+               </span>
+             <span fxFlexLayoutAlign="end" fxFlex="6%">
+               <mat-icon class="clear" (click)="popPhoto(photo)">clear</mat-icon>
+             </span>
+           </span>
+          </div>
+     </div>
+     
+  </div>
+  <button fxFlexOffset="50px" mat-raised-button color="primary" 
+  [disabled]="!photoForm.form.valid"
+  (click)="onSalvarPhotos($event)">Salvar fotos</button>
+</form>
+</div>
